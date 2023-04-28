@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd  http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd">
+    <apikit:config name="picard-otl-sys-api-config" api="resource::ece79f47-cbde-4181-afcc-c8dca3870bc7:picard-otl-sys-api:1.0.2:raml:zip:picard-otl-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <http:listener-config name="swagger_otl_sys_HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="788d4f7f-e4a0-4005-9fe3-11a8f762133f">
+        <http:listener-connection host="0.0.0.0" port="${listener.port}" tlsContext="TLS_Context" protocol="HTTPS" />
+    </http:listener-config>
+    <global-property doc:name="Global Property" doc:id="aeba62e0-0451-4b9c-a8cb-089457fa28a8" name="mule.env" value="loc" />
+    <configuration-properties doc:name="Configuration properties" doc:id="e162c89d-3662-46d9-a03c-46d6c727774c" file="properties\loc.yaml" />
+    <tls:context name="TLS_Context" doc:name="TLS Context" doc:id="96c2f9dc-1489-4352-95ff-385524e4d99c">
+        <tls:trust-store type="jks" />
+        <tls:key-store type="jks" path="${tls.path}" keyPassword="keypicard" password="keypicard" alias="key-alias" />
+    </tls:context>
+    <secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6ae5fdf1-84b2-48e2-be83-b9e7cc1b19d2" file="properties/${mule.env}-secure.yaml" key="picard2020muleab" />
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="c380d90d-4f21-4890-97d1-be93a95b5889" >
+		<http:request-connection protocol="HTTPS" host="${services.otl.host}" port="${services.otl.port}" />
+	</http:request-config>
+	<configuration doc:name="Configuration" doc:id="ddadf464-7f3b-4a2c-bc5a-c3aca47a616d" defaultErrorHandler-ref="globalError_Handler" />
+</mule>

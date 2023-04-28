@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="picard-otl-sys-api-main">
+        <http:listener path="/api/*" config-ref="swagger_otl_sys_HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="picard-otl-sys-api-config" />
+    </flow>
+    <flow name="post:\reserve-timeslot:application\json:picard-otl-sys-api-config">
+        <logger level="DEBUG" doc:name="Début Operation &quot;POST reserve timeslot&quot;" doc:id="f2f59ec4-34a9-447d-ba6f-654431ea64c8" message="Début Operation &quot;POST reserve timeslot&quot;" />
+        <flow-ref doc:name="Flow Ref. reserve timeslot" doc:id="db51f40f-d13f-466d-a687-331e5c523c89" name="PostReserveTimeslots" />
+        <logger level="DEBUG" doc:name="Fin Operation &quot;POST reserve timeslot&quot;" doc:id="bc2cb8d7-39fd-4a9c-9d89-56bd2d4e7c87" message="Fin Operation &quot;POST reserve timeslot&quot;" />
+    </flow>
+    <flow name="post:\search-timeslot:application\json:picard-otl-sys-api-config">
+        <logger level="DEBUG" doc:name="Début Operation &quot;POST search timeslot&quot;" doc:id="dbf9690f-93a1-4f7a-9a50-2ce744ee5ad4" message="Début Operation &quot;POST search timeslot&quot;" />
+        <flow-ref doc:name="Flow Ref. search timeslot" doc:id="18751cab-5c1e-4935-a9f4-fa38ac3f1e95" name="PostSearchTimeslots" />
+        <logger level="DEBUG" doc:name="Fin Operation &quot;POST search timeslot&quot;" doc:id="376b5c36-9f8b-4bba-9788-9a913baab247" message="Fin Operation &quot;POST search timeslot&quot;" />
+    </flow>
+    <flow name="post:\store\reserve-timeslot:application\json:picard-otl-sys-api-config">
+        <logger level="INFO" message="post:\store\reserve-timeslot:application\json:picard-otl-sys-api-config" />
+    </flow>
+    <flow name="post:\store\search-timeslot:application\json:picard-otl-sys-api-config">
+        <logger level="INFO" message="post:\store\search-timeslot:application\json:picard-otl-sys-api-config" />
+    </flow>
+    <flow name="get:\appointement:application\json:picard-otl-sys-api-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    sessionId: "360319e6-7c9b-4ff4-aa9e-ee29945e88ff",
+    result: {
+      success: true,
+      detail: "Result set contains 3 elements\\n"
+    },
+    rows: {
+      row: [
+        {
+          property: [
+            {
+              name: "APPOINTMENTID",
+              value: "69387P7131-TVX"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\set-timeslot:application\json:picard-otl-sys-api-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    result: {
+      success: true,
+      errorCode: 200,
+      detail: "Everything gonna be alright"
+    }
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>

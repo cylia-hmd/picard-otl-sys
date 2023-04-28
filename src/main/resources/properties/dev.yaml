@@ -1,0 +1,62 @@
+listener:
+  host: "0.0.0.0"
+  port: "8081"
+  timeout: "30000"
+  responseTimeout: "180000"
+  
+tls:
+  type: "JKS"
+  path: "tls/key-picard-sys.jks"
+  alias: "key-alias"
+  keypassword: secure::"![${tls.password}]"
+  insecure: "false"
+  
+config: 
+  version: "1"
+  key: "##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##"
+  language: "en_US"
+  userLogin: "Webservice"
+
+services:
+  otl:
+    host: "rec-picard.geoconcept.com"
+    port: "443"
+    protocol: "HTTPS"
+    basepath: "/api"
+    path: "/otgs/ws-api/v1/availabletime/search.json"
+    client_id: ""
+    client_secret: ""
+    
+    
+  customer:
+    host: "rec-picard.geoconcept.com"
+    port: "443"
+    protocol: "HTTPS"
+    path: "/otgs/rest/v1/entities/json/setEntityFromProperties.json"
+    
+    
+  reserve:
+    host: "rec-picard.geoconcept.com"
+    port: "443"
+    protocol: "HTTPS"
+    path: "/otgs/ws-api/v1/availabletime/reserve.json"
+    
+    
+  getentities:
+    host: "rec-picard.geoconcept.com"
+    port: "443"
+    protocol: "HTTPS"
+    path: "/otgs/rest/v2/exportEntities/json/getEntitiesProperties.json"
+    
+    
+  setentities:
+    host: "rec-picard.geoconcept.com"
+    port: "443"
+    protocol: "HTTPS"
+    basepath: "/otgs/ws-api"
+    path: "/otgs/rest/v1/entities/json/setEntityFromProperties.json"
+  
+    
+  
+    
+    

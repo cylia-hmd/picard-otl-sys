@@ -1,0 +1,33 @@
+{
+    "appointmentRequest":
+    {
+        "customerId":"TEST_RESERV_92700",
+        "taskTypesIds":["LAD"],
+        "duration":{
+            "value":5,
+            "unit":"MINUTE"
+            },
+        "properties":
+        {"property":[
+            {"name":"CODEZONE","value":"95560"},
+            {"name":"CITY","value":"PONTOISE"}
+            
+            ]
+        }
+    },
+    
+    "searchStartDate":"2023-04-08T06:00:00",
+    "searchEndDate":"2023-04-20T22:00:00",
+    "searchParameters":
+    {   
+        "searchConfigurationName":"AIX_PROVENANCE",
+        "returnsEmptyCells":"" 
+    },
+    "commonInfo":{
+        "version":"1",
+        "key":"##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+        "language":"fr",
+        "userLogin":"Webservice",
+        "userPassword":""}
+    }
+    

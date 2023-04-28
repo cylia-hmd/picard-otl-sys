@@ -1,0 +1,16 @@
+%dw 2.0
+
+type auto_09c150be_cf85_419a_89b1_8ad6376e1904_Input_Payload = {
+  yGeo: String, 
+  "end-datetime": String, 
+  taskTypesIds: "CCE" | "LAD", 
+  profil?: Array<Any> {"description": "permet d'identifier le template"}, 
+  cityCode: String, 
+  countryCode: String, 
+  "start-datetime": String, 
+  postalCode: String, 
+  customerId: String, 
+  xGeo: String, 
+  _?: Any
+} {"description": "find timeslot information with Nomadia System API"}
+

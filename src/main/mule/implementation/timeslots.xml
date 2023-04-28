@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd">
+	<sub-flow name="PostReserveTimeslots" doc:id="666a79d6-21b7-4cc3-a25b-4f9c426d94bc" >
+		<logger level="DEBUG" doc:name='Début Operation "POST reserve timeslot"' doc:id="7174c2ca-e8c2-4226-bad8-b68bb575c749" message='#[{&#10;  "flow": "PostReserveTimeslots",&#10;  "message": "Début HTTP Request POST reserve timeslots",&#10;  "body": payload&#10;}]' />
+		<ee:transform doc:name="Add Customer Query" doc:id="210f6797-655b-4615-9491-93e5c13acba8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+fun formatdate(date) = date as DateTime as Date {format: "dd/MM/YYYY"}
+fun formathour(hour) = hour as DateTime as Time {format: "HH'h'mm"} 
+
+fun val(n,v) = 
+{
+    "name": n,
+    "value": v
+} 
+---
+
+{
+  "sessionId": "1",
+  "properties": {
+    "property": 
+    [
+        val("CUSTOMERNAME", payload.customerId),
+        val("CUSTOMERID", payload.customerId),
+        val("ADDRESSINFO", payload.addressInfo),
+        val("CONTACTLASTNAME", payload.contactLastName),
+        val("CONTACTCELLULARPHONE", payload.contactCellularPhone),
+        val("CONTACTWORKEMAIL", payload.contactWorkEmail),
+        val("CODEZONE", payload.postalCode),
+        val("ADDRESS", payload.address),
+        val("AREAID", payload.profil),
+        val("WORKSITEID", "CY"),
+        val("LOGICAL1", "true"),
+        val("DAYBEGINTIME", formathour(payload."start-datetime")),
+        val("DAYENDTIME", formathour(payload."end-datetime")),
+        val("CUSTOMERTYPEID", "CLIENT"),
+    ]
+   },
+  "dateFormat": "yyyy/MM/dd",
+  "separatorInListOfValues": ",",
+  "geocodingOptions": {
+    "geocodingType": "AT_CITY",
+    "minScore": 0.8,
+    "defaultWorkSiteId": ""
+  },
+  "commonInfo": {
+    "version": "1",
+    "key": "##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+    "language": "fr",
+    "userLogin": "Webservice",
+    "userPassword": null
+  }
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="originpayload" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="POST" doc:name="POST/ Add Customer" doc:id="8da19a13-3823-4247-8474-ade4b492e1f1" config-ref="HTTP_Request_configuration" path="${services.customer.path}">
+			<error-mapping sourceType="HTTP:BAD_REQUEST" targetType="CUSTOMER:BAD_REQUEST" />
+			<error-mapping sourceType="HTTP:NOT_FOUND" targetType="CUSTOMER:NOT_FOUND" />
+			<error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="CUSTOMER:SERVER_ERROR" />
+		</http:request>
+		<validation:is-true doc:name="Customer success" doc:id="dc6ca082-dd81-4e90-b4d7-c0c242b54561" expression='#[payload.result.success]' message='"Add Customer not successful!"'>
+			<error-mapping sourceType="VALIDATION:INVALID_BOOLEAN" targetType="CUSTOMER:INVALID_BOOLEAN" />
+		</validation:is-true>
+		<ee:transform doc:name="Reserve Query" doc:id="85b3e4c8-c8f8-403a-bca3-7fa51322b176">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+
+fun matchProfil(p) =
+    if (p == "CHRONOFRESH") 
+        1
+    else 
+        5
+
+fun getProfil(p) =
+    if (p == "CHRONOFRESH") 
+        1 
+    else 
+        0
+
+fun val(n,v) = 
+{
+    "name": n,
+    'value': v
+} 
+
+---
+{
+    "appointmentRequest":
+    {
+        "appointmentId": vars.originpayload.appointmentId,
+        "workSiteId": "CY",
+        "customerId": vars.originpayload.customerId,
+        "taskTypesIds": [vars.originpayload.tasktype],
+        "address": null,
+        "duration":{"value":10,"unit":"MINUTE"},
+        "properties":
+
+        {
+            "property":
+            [
+            	val("DURATION", matchProfil(vars.originpayload.profil)),
+            	val("TASKTYPES", vars.originpayload.tasktype),
+            	val("LOGICAL1", "false"),
+            	val("OPTIMPARAMETERINFO", vars.originpayload.profil),
+            	val("ISREMOTEWORKING", getProfil(vars.originpayload.profil))
+            ]
+        }
+    },
+    "reservedTime":{
+        "startDateTime": vars.originpayload."start-datetime",
+        "endDateTime": vars.originpayload."end-datetime",
+        "availableResourcesNumber":null,
+        "preferenceOrder":null,
+        "score":null,
+        "cost":null,
+        "qualityRange":null,
+        "observation":null  
+    },
+    "targetStatus":null,
+    "commonInfo":{
+        "version": Mule::p('config.version'),
+        "key": Mule::p('config.key'),
+        "language": Mule::p('config.language'),
+        "userLogin": Mule::p('config.userLogin'),
+        "userPassword": null
+    }
+    
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		
+	    <http:request method="POST" doc:name="POST/ Reserve" doc:id="099616a5-6201-4e4a-ad96-ad251fd71afe" config-ref="HTTP_Request_configuration" path="${services.reserve.path}"> 
+			<error-mapping sourceType="HTTP:BAD_REQUEST" targetType="RESERVE:BAD_REQUEST" />
+			<error-mapping sourceType="HTTP:NOT_FOUND" targetType="RESERVE:NOT_FOUND" />
+			<error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="RESERVE:SERVER_ERROR" />
+		</http:request>
+		<choice doc:name="Choice" doc:id="d35a9638-2556-4b9e-b3d0-1b8057415ada">
+			<when expression="#[payload.isSuccessful == true]">
+				<ee:transform doc:name="Get Entities Query" doc:id="5bdc14c2-bee5-41f0-9f8e-eb668be4243a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"entityName":"Appointment",
+	"fieldNames":"CUSTOMERID,STATUS,ANNOUNCED_STARTDATETIME,ANNOUNCED_ENDDATETIME,DATETIME_APPOINTMENT,DATETIME_APPOINTMENT_END,WORKSITEID",
+	"dateFormat":"yyyy/MM/dd",
+	"entityId": "NCO_02_02_2023_16h55",
+	"commonInfo":{
+        "version": Mule::p('config.version'),
+        "key": Mule::p('config.key'),
+        "language": Mule::p('config.language'),
+        "userLogin": Mule::p('config.userLogin'),
+        "userPassword": ""
+    }
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+				<set-variable doc:name="vars get entities path" doc:id="f209e32c-ec79-49cc-be0e-b2ff13083149" variableName="path" value="${services.getentities.path}" />
+			</when>
+			<otherwise>
+				<ee:transform doc:name="Set Entities Query" doc:id="ce2af13c-5acd-40cf-be09-824e58b6053c">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+
+fun val(n,v) = 
+{
+    "name": n,
+    'value': v
+} 
+---
+{
+    "sessionId": 1,
+    "properties": {
+        "property":
+            [
+            	val("APPOINTMENTID", vars.originpayload.appointmentId),
+            	val("CUSTOMERID", vars.originpayload.customerId),
+            	val("OPTIMPARAMETERINFO", vars.originpayload.profil),
+            	val("STATUS", "30"),
+            	val("ACTION", "SCHEDULE")
+            	
+            ]
+    },
+    "dateFormat":"yyyy/MM/dd",
+    "geocodingOptions":
+    {
+        "geocodingType":"AT_CITY",
+        "minScore":0.8,
+        "defaultWorkSiteId":""
+    },
+    "separatorInListOfValues":",",
+        "searchParameters": {
+        "returnsEmptyCells": "false"
+    },
+    "commonInfo":{
+        "version": Mule::p('config.version'),
+        "key": Mule::p('config.key'),
+        "language": Mule::p('config.language'),
+        "userLogin": Mule::p('config.userLogin'),
+        "userPassword": null
+    }
+
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<set-variable value="${services.setentities.path}" doc:name="vars get entities path" doc:id="1a939d83-8573-488c-9ac3-1346239e26d9" variableName="path" />
+			</otherwise>
+		</choice>
+		<http:request method="POST" doc:name="Post Set/Get Entities" doc:id="93f36496-7873-4f80-b664-089f74b2ab15" config-ref="HTTP_Request_configuration" path="#[vars.path]" responseTimeout="300000">
+			<error-mapping sourceType="HTTP:BAD_REQUEST" targetType="ENTITIES:BAD_REQUEST" />
+			<error-mapping sourceType="HTTP:NOT_FOUND" targetType="ENTITIES:NOT_FOUND" />
+			<error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="ENTITIES:SERVER_ERROR" />
+		</http:request>
+		<ee:transform doc:name="Format Sortie" doc:id="81b6aa3c-04c8-418d-9c29-f59b8e7d2de5">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"restitution-code": vars.originpayload."start-datetime" as DateTime as String {format: "eeeee"},
+	"worksiteId": "CY",
+	"isSuccessful":  payload.result.success
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="DEBUG" doc:name='Fin HTTP Resquest "POST reserve timeslot"' doc:id="b1ca6b87-d94f-4656-8ad6-bfcf88b8cba9" message='#[{&#10;  "flow": "PostReserveTimeslots",&#10;  "message": "Fin HTTP Request POST reserve timeslots",&#10;  "body": payload&#10;}]' />
+	</sub-flow>
+	<flow name="PostSearchTimeslots" doc:id="09c150be-cf85-419a-89b1-8ad6376e1904" >
+		<set-variable value="#[payload]" doc:name="payload" doc:id="2a11b702-e928-4620-af40-ee6a5cef2935" variableName="payload" />
+		<set-variable value="#[payload.countryCode]" doc:name="countryCode" doc:id="008db290-318b-46e1-900c-bb550fb02f33" variableName="countryCode" />
+		<parallel-foreach doc:name="Parallel For Each" doc:id="847b3b92-d874-42da-b80d-af3deb630fd1" collection="#[payload.profil]">
+			<logger level="DEBUG" doc:name='Début Operation "POST search timeslot"' doc:id="ba6dfb46-11b5-487d-8ad5-463318610f23" message='#[{&#10;  "flow": "PostSearchTimeslots",&#10;  "message": "Début HTTP Request POST search timeslots",&#10;  "body": payload&#10;}]' />
+			<set-variable value="#[payload]" doc:name="profil" doc:id="d3a5deda-81da-495a-8333-8eb48523aeef" variableName="profil" />
+			<ee:transform doc:name="Format Entree" doc:id="86c1a40f-d846-44ce-b4a3-c7ead0f01f05">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+
+var profil = vars.profil
+
+fun matchProfil(profil: String) =
+  (if (profil == "CHRONOFRESH") 
+  		"CF" 
+  	else 
+  		"LAD") 
+
+fun chronoprofil(p)=
+{
+   appointmentRequest: {
+    appointmentId: null,
+    customerId: vars.payload.customerId,
+    taskTypesIds: matchProfil(payload) splitBy(" "),
+    duration:  {
+                value: 1,
+                unit: "MINUTE"
+            },
+
+            properties: {
+                property: [
+                    {
+                    "name": "ISREMOTEWORKING",
+                    "value": vars.payload.postalCode
+                    },
+                    {
+                    "name": "CODEZONE",
+                    "value": vars.payload.postalCode
+                    },
+                    {
+                    "name": "OPTIMPARAMETERINFO",
+                    "value": "PICARD_2h"
+                    },
+	                {
+			          "name": "city",
+			          "value": vars.payload.cityCode
+			        },
+			        {
+			          "name": "XGEO",
+			          "value": vars.payload.xGeo
+			        },
+			        {
+			          "name": "YGEO",
+			          "value": vars.payload.yGeo
+			        }
+		       ]
+		      }
+        },
+    searchStartDate: vars.payload."start-datetime",
+    searchEndDate: vars.payload."end-datetime",
+    searchParameters: {
+    	returnsEmptyCells: false,
+		searchConfigurationName: payload
+		
+	},
+	commonInfo: {
+            version:"1",
+            key:"##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+            language:"fr",
+            userLogin:"Webservice",
+            userPassword:""
+	    }
+} 
+
+fun otherprofil(p)=
+{
+   appointmentRequest: {
+   	appointmentId: null,
+    customerId: vars.payload.customerId,
+    taskTypesIds: matchProfil(payload) splitBy(" "),
+    duration:{
+                value: 5,
+                unit: "MINUTE"
+            },
+
+            properties: {
+            property: [
+                
+                {
+                "name": "CODEZONE",
+                "value": vars.payload.postalCode
+                },
+                {
+                "name": "OPTIMPARAMETERINFO",
+                "value": "PICARD_2h"
+                },
+                {
+		          "name": "city",
+		          "value": vars.payload.cityCode
+		        },
+		        {
+		          "name": "XGEO",
+		          "value": vars.payload.xGeo
+		        },
+		        {
+		          "name": "YGEO",
+		          "value": vars.payload.yGeo
+		        }
+				  ]
+				  
+				  }
+		  
+        },
+    searchStartDate: vars.payload."start-datetime",
+    searchEndDate: vars.payload."end-datetime",
+    searchParameters: {
+    	returnsEmptyCells: false,
+		searchConfigurationName: payload
+		},
+	commonInfo: {
+		    version:"1",
+            key:"##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+            language:"fr",
+            userLogin:"Webservice",
+            userPassword:""
+	    }
+} 
+
+---
+profil match {
+    case "CHRONOFRESH" -> chronoprofil(profil)
+    else         -> otherprofil(profil)
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="INFO Payload d'Entree en Resquest" doc:id="c4be4bd4-75c7-4c0a-904e-dbae0cef16fc" message="#[payload]" />
+				<http:request method="POST" doc:name="POST/ search timeslots Request" doc:id="0cb09644-b846-42a1-9ec7-84c8faeb9a18" responseTimeout="1500000" url="https://rec-picard.geoconcept.com:443/otgs/ws-api/v1/availabletime/search.json">
+					<error-mapping sourceType="HTTP:NOT_FOUND" targetType="SEARCH:NOT_FOUND" />
+			</http:request>
+				<logger level="INFO" doc:name="INFO Payload de Sortie en Resquest" doc:id="b0724114-360b-4ad1-adbb-8bac2a071afd" message="#[payload]" />
+			<ee:transform doc:name="Format Sortie" doc:id="05f66962-4239-4eb4-a96e-c599c41ea80c">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+
+var countrycode = vars.countryCode
+var profil = vars.profil
+
+var flatp = flatten(payload.availableDays.timeSlots)
+
+fun matchProfil(p) =
+  (if (profil == "CHRONOFRESH") "CF" else "LAD") splitBy(" ")
+
+fun formatdate(date) = date as DateTime as Date {format: "dd/MM/YYYY"}
+fun formathour(hour) = hour as DateTime as Time {format: "HH'h'mm"}  
+---
+
+{
+    "timeslot-count": sizeOf(flatp),
+    "timeSlots": flatp filter ((item, index) -> !isEmpty(item) ) map ((times, index) ->{
+        "state": 'A',
+        "delivery-type": matchProfil(profil),
+        "country": countrycode,
+        "restitution-date": formatdate(times.startDateTime),
+        "restitution-start-hour": formathour(times.startDateTime),
+        "restitution-end-hour": formathour(times.endDateTime),
+        "timeslot-source": 'OTL',
+        "chrono-fresh": profil == "CHRONOFRESH"
+    } )
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="DEBUG" doc:name='Fin HTTP Resquest "POST search timeslot"' doc:id="1fea7bf3-8966-4057-92c2-090377f753bf" message='#[{&#10;  "flow": "PostSearchTimeslots",&#10;  "message": "Fin HTTP Request POST search timeslots",&#10;  "body": payload&#10;}]' />
+		</parallel-foreach>
+		<ee:transform doc:name="vars.count" doc:id="55e8c127-dbfd-45a0-afa3-ad20387d4fa8">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="count" ><![CDATA[%dw 2.0
+output application/json
+var sum = payload.payload.*"timeslot-count" reduce ((item, acc) -> item + acc)
+---
+sum == 0
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<validation:is-false doc:name="Timeslots" doc:id="64eca26f-35cd-4802-b706-2fbcaf0ab97f" expression="#[vars.count]" message='"NOT FOUND"'/>
+		<logger level="INFO" doc:name="FIN POST " doc:id="d1a99561-ae8b-42c7-8dda-e34b46e6e40c" message="#[payload]" />
+		<error-handler>
+			
+      <on-error-continue type="COMPOSITE_ROUTING" when='error.errorType.identifier contains ("BAD_REQUEST")' enableNotifications="true" logException="true">
+				<set-variable value="#[400]" doc:name="Set the HTTP Status - 400" doc:id="43332daf-fe4a-4d7e-a324-b518709d7721" variableName="httpStatus" />
+				<set-variable value="BAD_REQUEST" doc:name="Set Error Code" doc:id="267a1299-7a45-4bb0-bd86-8f1eb63bfcd8" variableName="errorCode" />
+				<ee:transform doc:name="Compose Error Payload" doc:id="707ff1ff-19ab-462b-b7ee-6a71216c9ba0" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+error: {
+	status: vars.httpStatus,
+	error_code: vars.errorCode,
+	error_datetime: now() as String { format: "yyyy-MM-dd'T'HH:mm:ssZ" },
+	error_message: error
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+      
+</on-error-continue>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="57769e95-43be-4d2a-b5bc-06c1b687a2dc" type="COMPOSITE_ROUTING" when='error.errorType.identifier contains ("NOT_FOUND")' >
+				<set-variable value="#[404]" doc:name="Set the HTTP Status - 404" doc:id="0f2baca9-ac0a-442d-b69d-6ec143589134" variableName="httpStatus" />
+				<set-variable value="NOT_FOUND" doc:name="Set Error Code" doc:id="9e03995f-3169-4a95-aa3c-ec764c5cd1c5" variableName="errorCode" />
+				<ee:transform doc:name="Compose Error Payload" doc:id="7ecad952-3087-4744-8623-6f9a0b118030" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+error: {
+	status: vars.httpStatus,
+	error_code: vars.errorCode,
+	error_datetime: now() as String { format: "yyyy-MM-dd'T'HH:mm:ssZ" },
+	error_message: error
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="41b15b09-9a11-4e6b-ab9b-8dfc9c873e69" type="VALIDATION:INVALID_BOOLEAN">
+				<set-variable value="#[404]" doc:name="Set the HTTP Status - 404" doc:id="8d0021a6-3ae9-4880-b368-54327a69b91f" variableName="httpStatus" />
+				<set-variable value="NOT_FOUND" doc:name="Set Error Code" doc:id="7f949ca5-74c7-42fd-a3c5-0e7dbb92e9c1" variableName="errorCode" />
+				<ee:transform doc:name="Compose Error Payload" doc:id="6ef4ab9d-59ea-4f04-afce-6cb1e6f39bc5" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+error: {
+	status: vars.httpStatus,
+	error_code: vars.errorCode,
+	error_datetime: now() as String { format: "yyyy-MM-dd'T'HH:mm:ssZ" },
+	error_message: error
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

@@ -1,0 +1,14 @@
+{
+    "yGeo": "2648806.9",
+    "profil": ["AIX_EN_PROVENCE"],
+    "countryCode": "France",
+    "taskTypesIds": [
+      "LAD"
+    ],
+    "end-datetime": "2021-07-07T21:00:00",
+    "xGeo": "2648806.9",
+    "cityCode": "Paris",
+    "customerId": "TEST_RESERV_92700",
+    "start-datetime": "2021-07-01T10:00:00",
+    "postalCode": "92700"
+  }

@@ -1,0 +1,457 @@
+[
+  {
+    "inboundAttachmentNames": [
+      
+    ],
+    "exceptionPayload": null,
+    "inboundPropertyNames": [
+      
+    ],
+    "outboundAttachmentNames": [
+      
+    ],
+    "payload": [
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "04/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "04/10/2023",
+            "restitution-start-hour": "09h00",
+            "restitution-end-hour": "12h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "04/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "04/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 4
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "05/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "05/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "05/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "06/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "06/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "06/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "09/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "09/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "09/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "10/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "10/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "10/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "11/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "11/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "11/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "12/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "12/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "12/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "13/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "13/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "13/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "16/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "16/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "16/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      },
+      {
+        "timeSlots": [
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "17/10/2023",
+            "restitution-start-hour": "08h00",
+            "restitution-end-hour": "11h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "17/10/2023",
+            "restitution-start-hour": "14h00",
+            "restitution-end-hour": "17h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          },
+          {
+            "state": "A",
+            "delivery-type": [
+              "LAD"
+            ],
+            "country": "France",
+            "restitution-date": "17/10/2023",
+            "restitution-start-hour": "15h00",
+            "restitution-end-hour": "18h00",
+            "timeslot-source": "OTL",
+            "chrono-fresh": false
+          }
+        ],
+        "timeslot-count": 3
+      }
+    ],
+    "outboundPropertyNames": [
+      
+    ],
+    "attributes": {
+      "headers": {
+        "date": "Thu, 20 Apr 2023 08:34:29 GMT",
+        "server": "Apache",
+        "strict-transport-security": "max-age=63072000; includeSubDomains",
+        "x-frame-options": "SAMEORIGIN",
+        "access-control-allow-origin": "*",
+        "content-type": "application/json",
+        "set-cookie": "JSESSIONID=969319E117DF0B43AC20EB66DC064E6F; Path=/otgs; Secure; HttpOnly;HttpOnly;Secure",
+        "keep-alive": "timeout=5, max=100",
+        "connection": "Keep-Alive",
+        "transfer-encoding": "chunked"
+      },
+      "reasonPhrase": "200",
+      "statusCode": 200
+    }
+  }
+]
