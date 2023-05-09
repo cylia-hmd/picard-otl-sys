@@ -1,0 +1,1 @@
+"/otgs/rest/v2/exportEntities/json/getEntitiesProperties.json"

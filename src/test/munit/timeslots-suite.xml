@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="timeslots-suite.xml" />
+	<munit:test name="PostReserveTimeslots-test" doc:id="2485c8c8-6ded-4b42-9948-57e7ef8b2f55" >
+		<munit:behavior >
+			<munit-tools:spy doc:name="Spy Add Customer Query" doc:id="7aa9dba7-d20b-47ef-9f30-576edc4f2752" processor="ee:transform">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="210f6797-655b-4615-9491-93e5c13acba8" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="bf483acd-04be-4c46-beb5-b70caa2a22e6" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload12
+---
+spy_assert_payload12::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="24584df2-186e-4166-9554-b31c9eace0d6" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload13
+---
+spy_assert_payload13::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit-tools:mock-when doc:name="Mock POST/ Add Customer" doc:id="d8c901bf-278c-492c-a946-4d6555e75b5e" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8da19a13-3823-4247-8474-ade4b492e1f1" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json  --- readUrl('classpath://PostReserveTimeslotstest\mock_payload.dwl')]" mediaType="application/json " encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://PostReserveTimeslotstest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://PostReserveTimeslotstest\mock_variable_3.dwl')]" />
+						<munit-tools:variable key="originpayload" value="#[output application/json --- readUrl('classpath://PostReserveTimeslotstest\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy Reserve Query" doc:id="eaa14305-9f21-4ce0-8f87-9c20530135bb" processor="ee:transform">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="85b3e4c8-c8f8-403a-bca3-7fa51322b176" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="99beebff-0a5f-4082-865f-c719dd39ab38" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload18
+---
+spy_assert_payload18::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="9a2451ad-870d-41fd-88c0-a97608494fbc" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload19
+---
+spy_assert_payload19::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit-tools:mock-when doc:name="Mock POST/ Reserve" doc:id="e22f3511-dd49-4076-9fa1-1ad6f1e06b01" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="099616a5-6201-4e4a-ad96-ad251fd71afe" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[output application/json  --- readUrl('classpath://PostReserveTimeslotstest\mock_payload2.dwl')]" mediaType="application/json " encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://PostReserveTimeslotstest\mock_attributes2.dwl')]" />
+					<munit-tools:variables>
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://PostReserveTimeslotstest\mock_variable_8.dwl')]" />
+						<munit-tools:variable key="originpayload" value="#[output application/json --- readUrl('classpath://PostReserveTimeslotstest\mock_variable_9.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy Get Entities Query" doc:id="33b78a7f-a60a-4e04-9706-29551c709e94" processor="ee:transform">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="5bdc14c2-bee5-41f0-9f8e-eb668be4243a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="7600c6a2-48d0-4de5-817a-293c7bc2549f" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload14
+---
+spy_assert_payload14::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="0314d275-5161-403e-a6d5-ef69ed2efbd3" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload15
+---
+spy_assert_payload15::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit-tools:spy doc:name="Spy Set Entities Query" doc:id="6ea4fbaa-0431-4acc-9f18-8330fb50e1b8" processor="ee:transform">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="ce2af13c-5acd-40cf-be09-824e58b6053c" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call>
+					<munit-tools:assert doc:name="Assert payload" doc:id="aed2275c-e09d-4674-b430-09d9a7ef2d34" message="The payload does not match">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload14
+---
+spy_assert_payload14::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call>
+					<munit-tools:assert doc:name="Assert expression" doc:id="992d1e00-88f7-43a3-b4a6-03b74e61992a">
+						<munit-tools:that><![CDATA[#[%dw 2.0
+import * from dw::test::Asserts
+---
+payload must equalTo({
+  "sessionId": "9a009b29-add9-4971-8bac-30b7603d3bfb",
+  "result": {
+    "success": true,
+    "detail": "Result set contains 1 elements\n"
+  },
+  "rows": {
+    "row": [
+      {
+        "property": [
+          {
+            "name": "CUSTOMERID",
+            "value": "TEST_RESERV_92700"
+          },
+          {
+            "name": "STATUS",
+            "value": "30"
+          },
+          {
+            "name": "ANNOUNCED_STARTDATETIME",
+            "value": "2023/05/05 00:00"
+          },
+          {
+            "name": "ANNOUNCED_ENDDATETIME",
+            "value": "2023/05/05 23:59"
+          },
+          {
+            "name": "DATETIME_APPOINTMENT",
+            "value": "2023/05/05 10:00"
+          },
+          {
+            "name": "DATETIME_APPOINTMENT_END",
+            "value": "2023/05/05 10:05"
+          },
+          {
+            "name": "WORKSITEID",
+            "value": "CY"
+          }
+        ]
+      }
+    ]
+  }
+})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit-tools:mock-when doc:name="Mock Post Set/Get Entities" doc:id="171e8c97-dc94-4cc2-b177-40fdb55ce0b6" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="93f36496-7873-4f80-b664-089f74b2ab15" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json  --- readUrl('classpath://PostReserveTimeslotstest\mock_payload1.dwl')]" mediaType="application/json " encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://PostReserveTimeslotstest\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="path" value="#[readUrl('classpath://PostReserveTimeslotstest\mock_variable_5.dwl')]" encoding="UTF-8" />
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://PostReserveTimeslotstest\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="originpayload" value="#[output application/json --- readUrl('classpath://PostReserveTimeslotstest\mock_variable_7.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:spy doc:name="Spy Format Sortie" doc:id="0886d0d6-7aba-4d45-988c-a0b0f16c13dc" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="81b6aa3c-04c8-418d-9c29-f59b8e7d2de5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="a2bb13ca-565f-4922-b5d6-aca7832e1e6d" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload16
+---
+spy_assert_payload16::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="10b65867-1bbb-401a-9501-6bb07cd85746" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::spy_assert_payload17
+---
+spy_assert_payload17::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="bb7edee9-c04e-4f1b-868e-da045066d8f8">
+				<munit:payload value='#[output application/json &#10;--- &#10;{&#10;  "appointmentId": "NCO_02_02_2023_16h55",&#10;  "countryCode": "FR",&#10;  "profil": "PICARD",&#10;  "address": "15 Rue Jean Jaures",&#10;  "end-datetime": "2023-07-01T10:00:00",&#10;  "tasktype": "CCE",&#10;  "contactWorkEmail": "said_derriche@picard.fr",&#10;  "contactCellularPhone": "0658239302",&#10;  "cityCode": "Paris",&#10;  "contactLastName": "DERRICHE",&#10;  "customerId": "TEST_RESERV_92700",&#10;  "start-datetime": "2023-01-01T10:00:00",&#10;  "contactFirstName": "Said",&#10;  "postalCode": "45150",&#10;  "addressInfo": "Batiment B"&#10;}]' encoding="UTF-8" mediaType="application/json " />
+				<munit:attributes value='#[{&#10;  "headers": {&#10;    "content-type": "application/json",&#10;    "client_id": "&lt;string&gt;",&#10;    "client_secret": "&lt;string&gt;",&#10;    "user-agent": "PostmanRuntime/7.32.2",&#10;    "accept": "*/*",&#10;    "postman-token": "dbcb5897-6850-4311-9a74-32ca07cbf85a",&#10;    "host": "localhost:8081",&#10;    "accept-encoding": "gzip, deflate, br",&#10;    "connection": "keep-alive",&#10;    "content-length": "484"&#10;  },&#10;  "clientCertificate": null,&#10;  "method": "POST",&#10;  "scheme": "https",&#10;  "queryParams": {},&#10;  "requestUri": "/api/reserve-timeslot",&#10;  "queryString": "",&#10;  "version": "HTTP/1.1",&#10;  "maskedRequestPath": "/reserve-timeslot",&#10;  "listenerPath": "/api/*",&#10;  "relativePath": "/api/reserve-timeslot",&#10;  "localAddress": "/127.0.0.1:8081",&#10;  "uriParams": {},&#10;  "rawRequestUri": "/api/reserve-timeslot",&#10;  "rawRequestPath": "/api/reserve-timeslot",&#10;  "remoteAddress": "/127.0.0.1:60502",&#10;  "requestPath": "/api/reserve-timeslot"&#10;}]' />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://PostReserveTimeslotstest\set-event_variable_1.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to PostReserveTimeslots" doc:id="5b2a16f1-6286-462a-af6e-4b2662919185" name="PostReserveTimeslots"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="436c8332-ba5e-4b46-8809-d93a5627e2ad" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import PostReserveTimeslotstest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name='Verify Début Operation "POST reserve timeslot"' doc:id="98fece01-1c38-408b-816b-f11fbd75b7f0" processor="logger" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="7174c2ca-e8c2-4226-bad8-b68bb575c749" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name='Verify Fin HTTP Resquest "POST reserve timeslot"' doc:id="be93f482-68cb-4735-8831-0b6d09603b63" processor="logger" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b1ca6b87-d94f-4656-8ad6-bfcf88b8cba9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
