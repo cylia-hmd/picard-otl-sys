@@ -17,17 +17,109 @@
 				<munit-tools:before-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="bf483acd-04be-4c46-beb5-b70caa2a22e6" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload12
+import * from dw::test::Asserts
 ---
-spy_assert_payload12::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "appointmentId": "NCO_02_02_2023_16h55",
+  "countryCode": "FR",
+  "profil": "PICARD",
+  "address": "15 Rue Jean Jaures",
+  "end-datetime": "2023-07-01T10:00:00",
+  "tasktype": "CCE",
+  "contactWorkEmail": "said_derriche@picard.fr",
+  "contactCellularPhone": "0658239302",
+  "cityCode": "Paris",
+  "contactLastName": "DERRICHE",
+  "customerId": "TEST_RESERV_92700",
+  "start-datetime": "2023-01-01T10:00:00",
+  "contactFirstName": "Said",
+  "postalCode": "45150",
+  "addressInfo": "Batiment B"
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:before-call>
 				<munit-tools:after-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="24584df2-186e-4166-9554-b31c9eace0d6" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload13
+import * from dw::test::Asserts
 ---
-spy_assert_payload13::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "sessionId": "1",
+  "properties": {
+    "property": [
+      {
+        "name": "CUSTOMERNAME",
+        "value": "TEST_RESERV_92700"
+      },
+      {
+        "name": "CUSTOMERID",
+        "value": "TEST_RESERV_92700"
+      },
+      {
+        "name": "ADDRESSINFO",
+        "value": "Batiment B"
+      },
+      {
+        "name": "CONTACTLASTNAME",
+        "value": "DERRICHE"
+      },
+      {
+        "name": "CONTACTCELLULARPHONE",
+        "value": "0658239302"
+      },
+      {
+        "name": "CONTACTWORKEMAIL",
+        "value": "said_derriche@picard.fr"
+      },
+      {
+        "name": "CODEZONE",
+        "value": "45150"
+      },
+      {
+        "name": "ADDRESS",
+        "value": "15 Rue Jean Jaures"
+      },
+      {
+        "name": "AREAID",
+        "value": "PICARD"
+      },
+      {
+        "name": "WORKSITEID",
+        "value": "CY"
+      },
+      {
+        "name": "LOGICAL1",
+        "value": "true"
+      },
+      {
+        "name": "DAYBEGINTIME",
+        "value": "10h00"
+      },
+      {
+        "name": "DAYENDTIME",
+        "value": "10h00"
+      },
+      {
+        "name": "CUSTOMERTYPEID",
+        "value": "CLIENT"
+      }
+    ]
+  },
+  "dateFormat": "yyyy/MM/dd",
+  "separatorInListOfValues": ",",
+  "geocodingOptions": {
+    "geocodingType": "AT_CITY",
+    "minScore": 0.8,
+    "defaultWorkSiteId": ""
+  },
+  "commonInfo": {
+    "version": "1",
+    "key": "##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+    "language": "fr",
+    "userLogin": "Webservice",
+    "userPassword": null
+  }
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:after-call>
 			</munit-tools:spy>
@@ -51,17 +143,81 @@ spy_assert_payload13::main({payload: payload, attributes: attributes, vars: vars
 				<munit-tools:before-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="99beebff-0a5f-4082-865f-c719dd39ab38" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload18
+import * from dw::test::Asserts
 ---
-spy_assert_payload18::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "sessionId": "13edb3fc-affd-4068-b3a8-6b5dd226d0c0",
+  "result": {
+    "success": true,
+    "detail": ""
+  },
+  "isSuccessful": true,
+  "errorMessage": ""
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:before-call>
 				<munit-tools:after-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="9a2451ad-870d-41fd-88c0-a97608494fbc" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload19
+import * from dw::test::Asserts
 ---
-spy_assert_payload19::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "appointmentRequest": {
+    "appointmentId": "NCO_02_02_2023_16h55",
+    "workSiteId": "CY",
+    "customerId": "TEST_RESERV_92700",
+    "taskTypesIds": [
+      "CCE"
+    ],
+    "address": null,
+    "duration": {
+      "value": 10,
+      "unit": "MINUTE"
+    },
+    "properties": {
+      "property": [
+        {
+          "name": "DURATION",
+          "value": 5
+        },
+        {
+          "name": "TASKTYPES",
+          "value": "CCE"
+        },
+        {
+          "name": "LOGICAL1",
+          "value": "false"
+        },
+        {
+          "name": "OPTIMPARAMETERINFO",
+          "value": "PICARD"
+        },
+        {
+          "name": "ISREMOTEWORKING",
+          "value": 0
+        }
+      ]
+    }
+  },
+  "reservedTime": {
+    "startDateTime": "2023-01-01T10:00:00",
+    "endDateTime": "2023-07-01T10:00:00",
+    "availableResourcesNumber": null,
+    "preferenceOrder": null,
+    "score": null,
+    "cost": null,
+    "qualityRange": null,
+    "observation": null
+  },
+  "targetStatus": null,
+  "commonInfo": {
+    "version": "1",
+    "key": "##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+    "language": "en_US",
+    "userLogin": "Webservice",
+    "userPassword": null
+  }
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:after-call>
 			</munit-tools:spy>
@@ -85,17 +241,32 @@ spy_assert_payload19::main({payload: payload, attributes: attributes, vars: vars
 				<munit-tools:before-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="7600c6a2-48d0-4de5-817a-293c7bc2549f" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload14
+import * from dw::test::Asserts
 ---
-spy_assert_payload14::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "isSuccessful": true,
+  "appointmentId": "NCO_02_02_2023_16h55"
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:before-call>
 				<munit-tools:after-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="0314d275-5161-403e-a6d5-ef69ed2efbd3" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload15
+import * from dw::test::Asserts
 ---
-spy_assert_payload15::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "entityName": "Appointment",
+  "fieldNames": "CUSTOMERID,STATUS,ANNOUNCED_STARTDATETIME,ANNOUNCED_ENDDATETIME,DATETIME_APPOINTMENT,DATETIME_APPOINTMENT_END,WORKSITEID",
+  "dateFormat": "yyyy/MM/dd",
+  "entityId": "NCO_02_02_2023_16h55",
+  "commonInfo": {
+    "version": "1",
+    "key": "##75cqFdTolb-2010~GSS_DEFAULT_KEY~2011-BwyZa2Y92Bagn##",
+    "language": "en_US",
+    "userLogin": "Webservice",
+    "userPassword": ""
+  }
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:after-call>
 			</munit-tools:spy>
@@ -106,9 +277,12 @@ spy_assert_payload15::main({payload: payload, attributes: attributes, vars: vars
 				<munit-tools:before-call>
 					<munit-tools:assert doc:name="Assert payload" doc:id="aed2275c-e09d-4674-b430-09d9a7ef2d34" message="The payload does not match">
 						<munit-tools:that><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload14
+import * from dw::test::Asserts
 ---
-spy_assert_payload14::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "isSuccessful": true,
+  "appointmentId": "NCO_02_02_2023_16h55"
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:before-call>
 				<munit-tools:after-call>
@@ -183,17 +357,63 @@ payload must equalTo({
 				<munit-tools:before-call >
 					<munit-tools:assert doc:name="Assert payload" doc:id="a2bb13ca-565f-4922-b5d6-aca7832e1e6d" message="The payload does not match">
 						<munit-tools:that ><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload16
+import * from dw::test::Asserts
 ---
-spy_assert_payload16::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "sessionId": "bf746a5e-4638-43ab-abff-a8a49d564847",
+  "result": {
+    "success": true,
+    "detail": "Result set contains 1 elements\n"
+  },
+  "rows": {
+    "row": [
+      {
+        "property": [
+          {
+            "name": "CUSTOMERID",
+            "value": "TEST_RESERV_92700"
+          },
+          {
+            "name": "STATUS",
+            "value": "30"
+          },
+          {
+            "name": "ANNOUNCED_STARTDATETIME",
+            "value": "2023/05/05 00:00"
+          },
+          {
+            "name": "ANNOUNCED_ENDDATETIME",
+            "value": "2023/05/05 23:59"
+          },
+          {
+            "name": "DATETIME_APPOINTMENT",
+            "value": "2023/05/05 10:00"
+          },
+          {
+            "name": "DATETIME_APPOINTMENT_END",
+            "value": "2023/05/05 10:05"
+          },
+          {
+            "name": "WORKSITEID",
+            "value": "CY"
+          }
+        ]
+      }
+    ]
+  }
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:before-call>
 				<munit-tools:after-call >
 					<munit-tools:assert doc:name="Assert payload" doc:id="10b65867-1bbb-401a-9501-6bb07cd85746" message="The payload does not match">
 						<munit-tools:that ><![CDATA[#[%dw 2.0
-import PostReserveTimeslotstest::spy_assert_payload17
+import * from dw::test::Asserts
 ---
-spy_assert_payload17::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+payload must equalTo({
+  "restitution-code": "D",
+  "worksiteId": "CY",
+  "isSuccessful": true
+})]]]></munit-tools:that>
 					</munit-tools:assert>
 				</munit-tools:after-call>
 			</munit-tools:spy>
